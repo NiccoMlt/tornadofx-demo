@@ -9,9 +9,8 @@ import tornadofx.fieldset
 import tornadofx.form
 import tornadofx.textfield
 
-class MyView : View() {
+class LongRunningTaskView : View() {
     val controller: MyController by inject()
-    val input = SimpleStringProperty()
 
     override val root = form {
         fieldset {
@@ -28,9 +27,11 @@ class MyView : View() {
 
         }
     }
-}
 
-class MyController : Controller() {
-    fun loadText() = "Pippo"
+    companion object {
+        class MyController : Controller() {
+            fun loadText() = "Pippo"
+        }
+    }
 }
 
