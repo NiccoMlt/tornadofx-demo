@@ -1,6 +1,7 @@
 package com.example.demo.view
 
 import com.example.demo.model.Person
+import javafx.scene.paint.Color
 import tornadofx.*
 import java.time.LocalDate
 
@@ -13,10 +14,20 @@ class MyView : View() {
             Person(3, "Nicole Williams", LocalDate.of(1998,8,11))
     ).observable()
 
-    override val root = tableview(persons) {
+    override val root = tableview<Person> {
+        items = persons
         column("ID", Person::idProperty)
         column("Name", Person::nameProperty)
         column("Birthday", Person::birthdayProperty)
-        column("Age", Person::ageProperty)
+        column("Age", Person::ageProperty).cellFormat {
+            text = it.toString()
+            style {
+                if (it.toInt() < 18) {
+                    backgroundColor += c("#8b0000")
+                    textFill = Color.WHITE
+                }
+            }
+        }
     }
+
 }
