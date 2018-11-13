@@ -4,7 +4,7 @@ import tornadofx.View
 import tornadofx.borderpane
 import tornadofx.label
 
-class MasterView: View() {
+class EmbeddingMasterView: View() {
     override val root = borderpane {
         top<TopView>()
         bottom<BottomView>()
