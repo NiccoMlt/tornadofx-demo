@@ -1,22 +1,36 @@
 package com.example.demo.view
 
-import javafx.collections.FXCollections
-import javafx.collections.ObservableList
+import javafx.beans.property.SimpleStringProperty
 import tornadofx.Controller
 import tornadofx.View
-import tornadofx.label
-import tornadofx.listview
-import tornadofx.vbox
+import tornadofx.action
+import tornadofx.button
+import tornadofx.fieldset
+import tornadofx.form
+import tornadofx.textfield
 
 class MyView : View() {
     val controller: MyController by inject()
+    val input = SimpleStringProperty()
 
-    override val root = vbox {
-        label("My items")
-        listview(controller.values)
+    override val root = form {
+        fieldset {
+            val textfield = textfield()
+            button("Update text") {
+                action {
+                    runAsync {
+                        controller.loadText()
+                    } ui { loadedText ->
+                        textfield.text = loadedText
+                    }
+                }
+            }
+
+        }
     }
 }
 
 class MyController : Controller() {
-    val values: ObservableList<String> = FXCollections.observableArrayList("Alpha", "Beta", "Gamma", "Delta")
+    fun loadText() = "Pippo"
 }
+
