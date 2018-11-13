@@ -1,0 +1,43 @@
+# Modified from https://github.com/edvin/tornadofx/blob/master/.travis.yml
+
+# Use Java support
+language: java
+jdk:
+  - oraclejdk8
+
+# Install Oracle Java 8, the newest Java version supported by TornadoFX
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+
+# Run in container
+sudo: false
+
+# Use Linux as operating system
+os:
+  - linux
+
+# Configure xvfb screen.
+# see: https://docs.travis-ci.com/user/gui-and-headless-browsers/#Using-xvfb-to-Run-Tests-That-Require-a-GUI
+before_install:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+
+# Skip install stage
+install: true
+
+# Run Gradle build
+script:
+  - gradle clean build
+
+# Configure cache for Gradle
+# see: https://docs.travis-ci.com/user/languages/java/#caching
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.m2
