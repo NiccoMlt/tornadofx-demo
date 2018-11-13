@@ -1,40 +1,22 @@
 package com.example.demo.view
 
-import javafx.beans.property.SimpleStringProperty
+import javafx.collections.FXCollections
+import javafx.collections.ObservableList
 import tornadofx.Controller
 import tornadofx.View
-import tornadofx.action
-import tornadofx.button
-import tornadofx.field
-import tornadofx.fieldset
-import tornadofx.form
 import tornadofx.label
-import tornadofx.textfield
+import tornadofx.listview
 import tornadofx.vbox
 
 class MyView : View() {
     val controller: MyController by inject()
-    val input = SimpleStringProperty()
 
-    override val root = form {
-        fieldset {
-            field("Input") {
-                textfield(input)
-            }
-
-            button("Commit") {
-                action {
-                    controller.writeToDb(input.value)
-                    input.value = ""
-                }
-            }
-        }
+    override val root = vbox {
+        label("My items")
+        listview(controller.values)
     }
 }
 
-class MyController: Controller() {
-    fun writeToDb(inputValue: String) {
-        println("Writing $inputValue to database!")
-    }
+class MyController : Controller() {
+    val values: ObservableList<String> = FXCollections.observableArrayList("Alpha", "Beta", "Gamma", "Delta")
 }
-
